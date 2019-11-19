@@ -26,6 +26,7 @@ class App extends Component {
 
         return (
             <div className="App">
+                <p>Касымов Аян, Чермашев Аман</p>
                 <button onClick={this.getCards}> Get cards </button>
                 <div className="playingCards faceImages table">
                     {this.state.cards.map((card,index)=>(

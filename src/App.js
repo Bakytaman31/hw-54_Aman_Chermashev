@@ -1,21 +1,41 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-
+import CardDeck from './CardDeck'
+import './Cards/cards.css'
+import Card from "./Components/Card/Card";
+import PokerHand from "./Components/PokerHand/PokerHand";
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
+    state = {
+        cards: [],
+        result: '',
+    };
+
+    getCards = async ()=> {
+        await this.setState({
+            cards: new CardDeck().getCards(5)
+        });
+
+        let get = new PokerHand();
+        const result = get.getOutCome(this.state.cards);
+        await this.setState({result})
+
+    };
+
+    render() {
+        console.log(this.state.cards);
+
+        return (
+            <div className="App">
+                <button onClick={this.getCards}> Get cards </button>
+                <div className="playingCards faceImages table">
+                    {this.state.cards.map((card,index)=>(
+                        <Card key={index} rank={card.rank} suit={card.suit}/>
+                    ))}
+                    {this.state.result}
+                </div>
+            </div>
+        );
+    }
 }
 
 export default App;
